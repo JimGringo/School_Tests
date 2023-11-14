@@ -1,0 +1,22 @@
+CC=gcc
+CFLAGS=-c -Wall
+AR=ar
+ARFLAGS=rcs
+SOURCES=hw6-scan.c hw6-load.c hw6-search.c hw6-free.c
+OBJECTS=$(SOURCES:.c=.o)
+LIBRARY=hw7-lib-cody_nelson.a
+EXECUTABLE=hw7
+
+all: $(LIBRARY) $(EXECUTABLE)
+
+$(LIBRARY): $(OBJECTS)
+	$(AR) $(ARFLAGS) $(LIBRARY) $(OBJECTS)
+
+$(EXECUTABLE): hw6-main.o $(LIBRARY)
+	$(CC) hw6-main.o -o $(EXECUTABLE) -L. -l:hw7-lib-cody_nelson.a
+
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
+
+clean:
+	rm -f $(OBJECTS) hw6-main.o $(LIBRARY) $(EXECUTABLE)
